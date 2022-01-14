@@ -12,9 +12,5 @@ class Migration(migrations.Migration):
                 ('mail', models.EmailField(blank=True)),
                 ('name', models.TextField(blank=True)),
             ],
-            # options={
-            #     'ordering': ['-created_at', '-updated_at'],
-            #     'abstract': False,
-            # },
         ),
     ]

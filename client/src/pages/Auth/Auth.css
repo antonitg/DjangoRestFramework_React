@@ -1,0 +1,34 @@
+.pprimary {
+    background-color: #BB86FC;
+}
+.pbg {
+    background-color: #332940;
+}
+.pbg-primary {
+    background-color: #1F1A24;
+}
+.row {
+    --bs-gutter-x: 0!important;
+}
+.vh100 {
+    height: 100vh!important;
+}
+.pcol {
+    padding: 3rem;
+}
+.pcprimary {
+    text-decoration-line: underline;
+    color:#BB86FC;
+}
+.blprimary {
+    border-left: #BB86FC solid 4px;
+}
+.brprimary {
+    border-right: #BB86FC solid 0px;
+}
+.pinvalid {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545 !important;
+}

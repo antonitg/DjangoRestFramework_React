@@ -1,22 +1,16 @@
 import {
   render
 } from "react-dom";
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom";
+import React from "react";
 import App from "./App";
-import Objectives from "./routes/objectives";
-import Rest from "./routes/rest";
+import 'bootstrap/dist/css/bootstrap.css';
+import { QueryClient, QueryClientProvider } from "react-query";
+const queryClient = new QueryClient();
 const rootElement = document.getElementById("root");
 render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />}>
-        <Route path="objectives" element={<Objectives />} />
-        <Route path="rest" element={<Rest />} />
-      </Route>
-    </Routes>
-  </BrowserRouter>,
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </React.StrictMode>,
     rootElement);
