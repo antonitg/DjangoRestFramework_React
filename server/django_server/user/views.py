@@ -19,10 +19,9 @@ class Register_APIView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 class Info_APIView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     def get(self, request, format=None, *args, **kwargs):
         user = User.objects.all()
         # serializer_class = RegisterSerializers
         data = serializers.serialize('json', self.get_queryset())
         return HttpResponse(data, content_type="application/json")
-        return Response(user)
