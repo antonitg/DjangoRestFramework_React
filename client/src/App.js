@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import React from "react";
 import Sidebar from "./components/Sidebar";
+import StartPoints from "./components/StartPoints";
 
 export default function App() {
 const Auth = React.lazy(() => import("./pages/Auth"));
@@ -15,7 +16,7 @@ const Auth = React.lazy(() => import("./pages/Auth"));
     <Routes>
       {/* <Route path="/" element={<App />}/> */}
       <Route path="/" element={<Sidebar />}>
-        
+        <Route path="/" element={<StartPoints />} />
         <Route path="objectives" element={<Objectives />} />
         <Route path="rest" element={<Rest />} />
       </Route>

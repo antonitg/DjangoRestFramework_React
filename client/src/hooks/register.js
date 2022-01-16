@@ -2,26 +2,11 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { useMutation, useQueryClient } from 'react-query'
 import apiClient from '../core/http-common'
-import { AttemptAuth } from './attemptAuth'
-const { mutateAsyncLog } = AttemptAuth()
-function hookLogin(username, password) {
-    mutateAsyncLog({
-        user: {
-          username: username,
-          password: password
-        },
-    })
-}
 
 export function AttemptRegister() {
     const queryClient = useQueryClient()
     const queryKey = 'register'
-    return  useMutation(
-        (payload) => {
-            const data = apiClient.post('/v1/register/', payload.user.data)
-            console.log(payload);
-            return data;
-        },
+    return useMutation((payload) => { return apiClient.post('/v1/register/', payload.user.data)},
         {
           onMutate: async ({ userData }) => {
             const user = queryClient.getQueryData(queryKey)
@@ -47,7 +32,7 @@ export function AttemptRegister() {
           },
           onSuccess: (data,_,context) => {
 
-              hookLogin(_.user.data.username,_.user.data.password);
+              // hookLogin(_.user.data.username,_.user.data.password);
               console.log(data);
               console.log(context);
               console.log(_);

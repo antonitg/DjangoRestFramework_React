@@ -11,14 +11,8 @@ export default function Sidebar() {
       </a>
       <hr/>
       <ul className="nav nav-pills flex-column mb-auto">
-        <li className="nav-item">
-          <a href="#" className="nav-link active" aria-current="page">
-            <svg className="bi me-2" width="16" height="16"></svg>
-            Home
-          </a>
-        </li>
         <li>
-          <a href="#" className="nav-link text-white">
+          <a href="#" className="active nav-link text-white">
             <svg className="bi me-2" width="16" height="16"></svg>
             App
           </a>
