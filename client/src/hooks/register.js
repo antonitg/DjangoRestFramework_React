@@ -9,6 +9,7 @@ export function AttemptRegister() {
     return useMutation((payload) => { return apiClient.post('/v1/register/', payload.user.data)},
         {
           onMutate: async ({ userData }) => {
+            console.log(userData);
             const user = queryClient.getQueryData(queryKey)
             await queryClient.cancelQueries(queryKey)  
             queryClient.setQueryData(queryKey, () => ({

@@ -38,8 +38,8 @@ export function AttemptAuth() {
           onSuccess: (data) => {
               localStorage.setItem('jwt', data.data.access)
               localStorage.setItem('refresh', data.data.refresh)
-              window.location.replace("http://localhost:3000/home");
-              return <Navigate to="/home" replace/>
+              window.location.replace("http://localhost:3000/");
+              return <Navigate to="/" replace/>
             }
         }
       )

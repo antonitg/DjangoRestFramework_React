@@ -19,6 +19,27 @@
     justify-content: center;
     font-size: 39px
 }
+.c-selectable {
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.c-selectable:hover {
+    border: 1px solid #BB86FC;
+}
+.c-selected {
+    border: 3px solid #BB86FC !important;
+}
+.c-not-selectable {
+    box-sizing: border-box;
+    cursor: not-allowed;
+}
+.c-not-selectable:hover {
+    border:1px solid #CF6679 ;
+}
+.c-selected {
+    border: 3px solid #BB86FC;
+
+}
 .row {
     --bs-gutter-x: 0 !important;
 }

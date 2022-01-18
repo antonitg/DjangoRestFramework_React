@@ -1,19 +1,24 @@
 import React from "react"
 import "./Station.css"
+import { JourneyMutation } from "../../hooks/actualJourney";
+import { useQuery } from "react-query";
 export default function Station(props) {
-    // console.log(props);
+    let className = 'card p-3 mb-2 pcard';
+    const { mutateAsync } = JourneyMutation();
+    const { status, data, error } = useQuery(['journey']);
+    (props.station.bikes.length > 0) ? className += ' c-selectable' : className += ' c-not-selectable';
+    console.log(data);
+    if (data !== undefined && data.startStation === props.station.id) className += ' c-selected' 
+    function selectStation() {
+        if (props.station.bikes.length > 0) mutateAsync({startStation: props.station.id })
+    }
     return (
         <>
         <div className="col-md-4">
-        {/* { props.station.bikes.length > 0 && <div className="card p-3 mb-2 pcard"> }
-        {{ props.station.bikes.length <= 0 && <div className="card p-3 mb-2 pcard"> }} */}
-            <div className="card p-3 mb-2 pcard" >
+        {/* <button>Cl</button> */}
+            <div className={className} onClick={selectStation}>
                 <div style={{borderRadius:"12px",backgroundRepeat:"no-repeat",position:"unset", backgroundImage:"url('"+props.station.photo+"')", backgroundSize:"cover" ,paddingBottom: "220px"}} className="d-flex justify-content-between">
                     <div  className="d-flex flex-row align-items-center pb-5">
-                        {/* <div className="icon"> <img alt="asdad" className="img img-fluid img-responsive" src={props.station.photo}/> </div> */}
-                        {/* <div className="ms-2 c-details">
-                            <h6 className="mb-0">Mailchimp</h6> <span>1 days ago</span>
-                        </div> */}
                     </div>
                    { props.station.bikes.length > 0 && <div className="badge badge-good"> <span>Available</span> </div> }
                     { props.station.bikes.length <= 0 && <div className="badge badge-bad"> <span>Empty</span> </div> }

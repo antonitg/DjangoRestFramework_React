@@ -14,9 +14,8 @@ const Auth = React.lazy(() => import("./pages/Auth"));
   return (
     <BrowserRouter>
     <Routes>
-      {/* <Route path="/" element={<App />}/> */}
       <Route path="/" element={<Sidebar />}>
-        <Route path="/" element={<StartPoints />} />
+        <Route path="/"  element={<StartPoints />} />
         <Route path="objectives" element={<Objectives />} />
         <Route path="rest" element={<Rest />} />
       </Route>
@@ -25,8 +24,8 @@ const Auth = React.lazy(() => import("./pages/Auth"));
                 <Auth/>
               </React.Suspense>
             }/>
-        <Route path="sidebar" element={<Sidebar/>}/>
-        <Route path="*" element={
+      <Route path="sidebar" element={<Sidebar/>}/>
+      <Route path="*" element={
         <main style={{ padding: "1rem" }}>
           <p>There's nothing here!</p>
         </main>

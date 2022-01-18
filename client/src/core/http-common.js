@@ -1,17 +1,5 @@
 import axios from "axios";
 
-//  const httpClient = axios.create({
-//   baseURL: "http://localhost:8000/api",
-//   headers: {
-//     "Content-type": "application/json",
-//     "Access-Control-Allow-Origin": "*"
-//   }
-// });
-// if (localStorage.getItem("jwt")) {
-//     httpClient.defaults.headers.common['Authorization'] = `Bearer ` + localStorage.getItem("jwt"); // for all requests
-// }
-// export httpClient
-
 const httpClient = axios.create({
     baseURL: "http://localhost:8000/api"
 })
