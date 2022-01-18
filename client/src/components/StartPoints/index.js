@@ -1,6 +1,7 @@
 import React from "react"
 import Station from "../Station";
 import { GetStations } from "../../hooks/getStations";
+import { Outlet } from "react-router-dom";
 export default function StartPoints() {
 
     const { data, error } = GetStations()
@@ -18,6 +19,7 @@ export default function StartPoints() {
     <> 
       <div className="col row" style={{backgroundColor:"#332940", padding: "12px"}}>
         {listStations}
+        <Outlet/>
       </div>
     </>
   )

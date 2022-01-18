@@ -8,14 +8,16 @@ import {
 import React from "react";
 import Sidebar from "./components/Sidebar";
 import StartPoints from "./components/StartPoints";
-
+import StartJourney from "./components/StartJourney";
 export default function App() {
 const Auth = React.lazy(() => import("./pages/Auth"));
   return (
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Sidebar />}>
-        <Route path="/"  element={<StartPoints />} />
+        <Route path="/"  element={<StartPoints />}>
+          <Route path="/" element={<StartJourney/>}/>
+        </Route>
         <Route path="objectives" element={<Objectives />} />
         <Route path="rest" element={<Rest />} />
       </Route>

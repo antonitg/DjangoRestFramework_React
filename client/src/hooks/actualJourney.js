@@ -9,9 +9,11 @@ export function JourneyMutation() {
             // Set default values to the query to prevent errors on empty query data
             queryClient.setQueryData(queryKey, () => ({
                 start: false,
+                startName: undefined,
                 startStation: undefined,
                 startDate: undefined,
-                stopStation: undefined
+                stopStation: undefined,
+                stopName: undefined,
             }))
         },
         onError: (err, _, context) => {
@@ -24,8 +26,11 @@ export function JourneyMutation() {
             queryClient.setQueryData(queryKey, () => ({
                 start: variables.start || false,
                 startStation:variables.startStation || undefined,
-                startDate:variables.startDate || undefined,
-                stopStation:variables.stopStation || undefined
+                startName: variables.startName || undefined,
+                startDate: variables.startDate || undefined,
+                stopStation: variables.stopStation || undefined,
+                stopName: variables.stopName || undefined
+
             }))
         },
       })

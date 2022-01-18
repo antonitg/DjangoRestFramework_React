@@ -7,10 +7,9 @@ export default function Station(props) {
     const { mutateAsync } = JourneyMutation();
     const { status, data, error } = useQuery(['journey']);
     (props.station.bikes.length > 0) ? className += ' c-selectable' : className += ' c-not-selectable';
-    console.log(data);
     if (data !== undefined && data.startStation === props.station.id) className += ' c-selected' 
     function selectStation() {
-        if (props.station.bikes.length > 0) mutateAsync({startStation: props.station.id })
+        if (props.station.bikes.length > 0) mutateAsync({startStation: props.station.id, startName: props.station.name })
     }
     return (
         <>
