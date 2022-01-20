@@ -1,5 +1,5 @@
-from dataclasses import fields
-from .models import Station, Bike
+import datetime
+from .models import Journey, Station, Bike
 from rest_framework import serializers
 from django.core import serializers as core_serializers
 
@@ -23,5 +23,60 @@ class StationSerializer(serializers.ModelSerializer):
                 'location' : instance.location,
                 'space' : instance.space,
                 'bikes' : list(Bike.objects.filter(station_id_id = instance.id).values()),
-        
         }
+    def to_inernal_representation(self, instance):
+        return {
+                'id' : instance.id,
+                'name' : instance.name, 
+                'status' : instance.status, 
+                'photo' : instance.photo, 
+                'location' : instance.location,
+                'space' : instance.space,
+                'bikes' : list(Bike.objects.filter(station_id_id = instance.id).values()),
+        } 
+class JourneySerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Journey
+        fields = '__all__'
+    def create(self, validated_data):
+        # try:
+        #     validated_data['startStation'] > 0
+        # except:
+        #     raise serializers.ValidationError({"empty_startStation": "You must put a startStation in the POST body"})
+        
+        validated_data.startStation = StationSerializer(validated_data['startStation'])
+        bikes = list(validated_data.startStation.data.values())[6] #Position 6 is the bikes position may change 
+        
+        if len(Journey.objects.filter(user = validated_data['user'], stopStation = None)) > 0:
+            raise serializers.ValidationError({"already_on_joruney": "You're already on a journey, finish it first to start another!"})
+        if not Station.objects.filter(id=validated_data['startStation'].id).exists():
+            raise serializers.ValidationError({"no_station": "That station doesn't exists!"})
+        if len(bikes) <= 0:
+            raise serializers.ValidationError({"not_enough_bikes": "There are no bikes in this station"})      
+        print(list(bikes[0].values())[0])
+        Bike.objects.filter(id = list(bikes[0].values())[0]).update(station_id_id=None)
+        return Journey.objects.create(
+            user=validated_data['user'],
+            startStation = validated_data['startStation'],
+            start = validated_data['start'],
+            bike_id = list(bikes[0].values())[0]
+        )
+    def stop(self, validated_data):
+        # try:
+            # validated_data.stopStation == None
+        # except:
+            # raise serializers.ValidationError({"empty_stopStation": "You must put a stopStation in the POST body"})
+        validated_data.stopStation = StationSerializer(validated_data['stopStation'])
+        bikes = list(validated_data.stopStation.data.values())[6]
+        space = list(validated_data.stopStation.data.values())[5]
+        journey = Journey.objects.filter(user = validated_data['user'], stopStation = None)
+        if len(journey) != 1:
+            raise serializers.ValidationError({"not_in_a_journey": "You're not in a journey, start one!"})
+        if not Station.objects.filter(id=validated_data['stopStation'].id).exists():
+            raise serializers.ValidationError({"no_station": "That station doesn't exists!"})
+        if len(bikes) >= space:
+            raise serializers.ValidationError({"empty_station": "We're sorry this station is empty, try with another one."})
+        journey.update(stopStation=validated_data['stopStation'])
+        Journey.objects.filter(user = validated_data['user'], stopStation = None).update(stopStation=validated_data['stopStation'])
+        Bike.objects.filter(id = journey[0].bike_id).update(station_id_id=validated_data['stopStation'])

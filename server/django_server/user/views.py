@@ -10,6 +10,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework import status, generics
 from django.http import Http404
+from django.core import serializers as core_serializers
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class Register_APIView(generics.CreateAPIView):
@@ -21,7 +22,7 @@ class Register_APIView(generics.CreateAPIView):
 class Info_APIView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, format=None, *args, **kwargs):
-        user = User.objects.all()
+        # user = User.objects.all()
         # serializer_class = RegisterSerializers
-        data = serializers.serialize('json', self.get_queryset())
-        return HttpResponse(data, content_type="application/json")
+        # data = core_serializers.serialize('json', request)
+        return HttpResponse(request.user.id, content_type="application/json")
