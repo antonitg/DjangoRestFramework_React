@@ -40,7 +40,7 @@ class JourneyViewSet(viewsets.GenericViewSet):  # <- Definir els mixins
         serializer = self.serializer_class(data=serializer_data)
         serializer.is_valid(raise_exception=True)
         serializer.stop(serializer.validated_data)
-        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response({'status':'success', 'data':serializer.data}, status=status.HTTP_202_ACCEPTED)
 
 
 

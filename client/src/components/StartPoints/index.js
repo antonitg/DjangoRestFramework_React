@@ -1,24 +1,24 @@
 import React, { useEffect }  from "react"
 import Station from "../Station";
-import { GetStations } from "../../hooks/getStations";
+import { useQueryClient } from 'react-query'
+import apiClient from '../../core/http-common'
+import { useQuery } from "react-query";
 import { Outlet } from "react-router-dom";
 import { JourneyMutation } from "../../hooks/actualJourney";
 export default function StartPoints() {
+  const queryClient = useQueryClient()
   const { mutateAsync } = JourneyMutation();
+  const { data: stationsFull, error } = useQuery(['stations']);
   useEffect(()=>{
       mutateAsync({}) // Fill empty mutation at the start of the app to ensure so all querys triggers and dependent components works properly 
+      apiClient.get("/v2/stations/").then(result => queryClient.setQueryData(['stations'], () => (result.data))) // Fill te station query
     }, [])
-
-    const { data, error } = GetStations()
-    // console.log(error);
-    if (error) window.location.href = '/auth'
-    const stations = data
-    // console.log(stations);
+    if (error) console.log(error); //window.location.href = '/auth'
     var listStations = null;
-    if (stations) {
-        listStations = stations.data.map((station) =>
-        <Station key={station.id} station={station}/>
-        );
+    if (stationsFull) {
+          listStations = stationsFull.map((station) =>
+          <Station key={station.id} station={station}/>
+          );
     }
   return (
     <> 

@@ -8,7 +8,9 @@ import {
 import React from "react";
 import Sidebar from "./components/Sidebar";
 import StartPoints from "./components/StartPoints";
-import StartJourney from "./components/StartJourney";
+import StartJourney from "./components/StartJourney"; 
+
+
 export default function App() {
 const Auth = React.lazy(() => import("./pages/Auth"));
   return (

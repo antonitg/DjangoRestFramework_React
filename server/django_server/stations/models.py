@@ -13,15 +13,6 @@ class Station(models.Model):
     space = models.IntegerField(blank=False, default=0)
     status = models.IntegerField(blank=True, default=1)
 
-# class Station(models.Model):
-
-#     id = models.AutoField(auto_created=True, primary_key=True, verbose_name='ID')
-#     photo = models.TextField(blank=False)
-#     name = models.TextField(blank=False)
-#     location = models.TextField(blank=False)
-#     space = models.IntegerField(blank=False, default=0)
-#     status = models.IntegerField(blank=True, default=1)
-#     bikes = models.
 
 class Bike(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)

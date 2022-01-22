@@ -24,7 +24,7 @@ class StationSerializer(serializers.ModelSerializer):
                 'space' : instance.space,
                 'bikes' : list(Bike.objects.filter(station_id_id = instance.id).values()),
         }
-    def to_inernal_representation(self, instance):
+    def to_internal_representation(self, instance):
         return {
                 'id' : instance.id,
                 'name' : instance.name, 
@@ -76,7 +76,7 @@ class JourneySerializer(serializers.ModelSerializer):
         if not Station.objects.filter(id=validated_data['stopStation'].id).exists():
             raise serializers.ValidationError({"no_station": "That station doesn't exists!"})
         if len(bikes) >= space:
-            raise serializers.ValidationError({"empty_station": "We're sorry this station is empty, try with another one."})
+            raise serializers.ValidationError({"full_station": "We're sorry this station is full, try with another one."})
+        Bike.objects.filter(id = list(list(journey.values())[0].values())[5]).update(station_id_id=validated_data['stopStation'])
         journey.update(stopStation=validated_data['stopStation'])
-        Journey.objects.filter(user = validated_data['user'], stopStation = None).update(stopStation=validated_data['stopStation'])
-        Bike.objects.filter(id = journey[0].bike_id).update(station_id_id=validated_data['stopStation'])
+        # Journey.objects.filter(user = validated_data['user'], stopStation = None).update(stopStation=validated_data['stopStation'])

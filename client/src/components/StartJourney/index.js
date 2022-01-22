@@ -1,16 +1,17 @@
 import React from "react";
-import { JourneyMutation } from "../../hooks/actualJourney";
+import { StartJourneyMutation } from "../../hooks/startJourney";
+import { StopJourneyMutation } from "../../hooks/stopJourney";
 import { useQuery } from "react-query";
 import './StartJourney.css'
 export default function StartJourney() {
-    
-    const { mutateAsync } = JourneyMutation();
-    const { status, data, error } = useQuery(['journey']);
+    const { data } = useQuery(['journey']);
+    var { mutateAsync: startMutation } = StartJourneyMutation();
+    var { mutateAsync: stopMutation  } = StopJourneyMutation();
     function startJourney() {
-        if (data.startStation) data.start = true; mutateAsync(data)
+        if (data.startStation) startMutation({startStation: data.startStation})
     }
     function stopJourney(){
-        if (data.startStation) data.start = false; mutateAsync(data)
+        if (data.stopStation) stopMutation({stopStation: data.stopStation})
     }
     var printText = null
     var printButton = null

@@ -1,5 +1,5 @@
 
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 
 export function JourneyMutation() {
     const queryClient = useQueryClient()
@@ -17,7 +17,6 @@ export function JourneyMutation() {
             }))
         },
         onError: (err, _, context) => {
-            // Pendet fer algun tipo de controlador de errors o setQueryData de les variables de error que deurien de estar be ja que no pot fallar la mutation al principi per que no depen de res
             console.log(err); // Log error
             console.log(_); // Log variables
         },

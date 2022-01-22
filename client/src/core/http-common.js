@@ -12,18 +12,27 @@ const ApiService = {
 
     get(path) {
         return httpClient.get(path)
+        .catch((error) => {throw error})
+
     },
     post(path, body) {
         return httpClient.post(path, body)
+        .catch((error) => {throw error})
     },
     put(path, body) {
         return httpClient.put(path, body)
+        .catch((error) => {throw error})
+
     },
     patch(path, body) {
         return httpClient.patch(path, body)
+        .catch((error) => {throw error})
+
     },
     delete(path) {
         return httpClient.delete(path)
+        .catch((error) => {throw error})
+
     }
 }
 export default ApiService
