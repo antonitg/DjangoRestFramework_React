@@ -33,7 +33,6 @@ export default function Station(props) {
     return (
         <>
         <div className="col-md-4">
-        {/* <button>Cl</button> */}
             <div className={className} onClick={selectStation}>
                 <div style={{borderRadius:"12px",backgroundRepeat:"no-repeat",position:"unset", backgroundImage:"url('"+props.station.photo+"')", backgroundSize:"cover" ,paddingBottom: "220px"}} className="d-flex justify-content-between">
                     <div  className="d-flex flex-row align-items-center pb-5">

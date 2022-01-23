@@ -5,11 +5,16 @@ import apiClient from '../../core/http-common'
 import { useQuery } from "react-query";
 import { Outlet } from "react-router-dom";
 import { JourneyMutation } from "../../hooks/actualJourney";
+import { RetrieveJourney } from "../../hooks/retrieveJourney";
+
 export default function StartPoints() {
   const queryClient = useQueryClient()
   const { mutateAsync } = JourneyMutation();
+  const { mutateAsync: firstMutation } = RetrieveJourney();
+
   const { data: stationsFull, error } = useQuery(['stations']);
   useEffect(()=>{
+      firstMutation()
       mutateAsync({}) // Fill empty mutation at the start of the app to ensure so all querys triggers and dependent components works properly 
       apiClient.get("/v2/stations/").then(result => queryClient.setQueryData(['stations'], () => (result.data))) // Fill te station query
     }, [])

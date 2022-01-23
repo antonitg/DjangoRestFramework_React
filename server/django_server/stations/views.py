@@ -1,10 +1,10 @@
-import datetime
+from datetime import datetime , timezone
 from logging import raiseExceptions
-from .models import Station, Bike
+from .models import Journey, Station, Bike
 from rest_framework import status, generics, viewsets
 from django.http.response import HttpResponse
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import BikeSerializer, JourneySerializer, StationSerializer
+from .serializers import BikeSerializer, JourneySerializer, StationSerializer, HistoryJourneySerializer
 from rest_framework.response import Response
 
 # Create your views here.
@@ -22,11 +22,21 @@ class JourneyViewSet(viewsets.GenericViewSet):  # <- Definir els mixins
     serializer_class = JourneySerializer;
     permission_classes = [AllowAny,]
     # https://www.django-rest-framework.org/api-guide/viewsets/ definir-los en views i urls
+    def actual(self, request):
+        queryset = Journey.objects.filter(stopStation = None, user = request.user)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def history(self, request):
+        queryset = Journey.objects.filter(user = request.user)
+        serializer = HistoryJourneySerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
     def create(self, request):
         serializer_data = {
             'user': request.user.id,
             'startStation': request.data.get('startStation'),
-            'start': datetime.datetime.now()
+            'start': datetime.now(timezone.utc)
         }
         serializer = self.serializer_class(data=serializer_data)
         serializer.is_valid(raise_exception=True)

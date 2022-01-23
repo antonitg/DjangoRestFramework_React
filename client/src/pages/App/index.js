@@ -5,7 +5,6 @@ import StartPoints from "../../components/StartPoints"
 export default function App() {
     return (
         <>
-        {/* <Sidebar></Sidebar> */}
         <StartPoints></StartPoints>
         </>
     )

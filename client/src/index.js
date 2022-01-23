@@ -4,6 +4,7 @@ import {
 import React from "react";
 import App from "./App";
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools'
 const queryClient = new QueryClient();

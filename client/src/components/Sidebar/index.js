@@ -1,7 +1,12 @@
 import React from "react"
-import { Outlet } from "react-router-dom"
+import { Outlet, Link, useLocation } from "react-router-dom"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHistory, faBicycle, faMoneyBill } from '@fortawesome/free-solid-svg-icons'
+import './Sidebar.css'
 export default function Sidebar() {
+  const location = useLocation();
   return (
+    
     <> 
     <div className="row">
   <div className="col-4 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style={{width: '340px', height: "100vh"}}>
@@ -12,29 +17,30 @@ export default function Sidebar() {
       <hr/>
       <ul className="nav nav-pills flex-column mb-auto">
         <li>
-          <a href="#" className="active nav-link text-white">
-            <svg className="bi me-2" width="16" height="16"></svg>
+          <Link to="/" className={`nav-link text-white ${location.pathname === '/' ? "active" : ""}`}>
+          <FontAwesomeIcon style={{marginRight: "20px"}} icon={faBicycle}/>
             App
-          </a>
+            </Link>
         </li>
         <li>
-          <a href="#" className="nav-link text-white">
-            <svg className="bi me-2" width="16" height="16"></svg>
-            History
-          </a>
+            
+            <Link to="history" className={`nav-link text-white ${location.pathname === '/history' ? "active" : ""}`}>
+            <FontAwesomeIcon style={{marginRight: "20px"}} icon={faHistory}/>
+              History
+              </Link>
         </li>
         <li>
-          <a href="#" className="nav-link text-white">
-            <svg className="bi me-2" width="16" height="16"></svg>
-            Pricing
-          </a>
+        <Link to="pricing" className={`nav-link text-white ${location.pathname === '/pricing' ? "active" : ""}`}>
+            <FontAwesomeIcon style={{marginRight: "20px"}} icon={faMoneyBill}/>
+              Pricing
+              </Link>
         </li>
-        <li>
+        {/* <li>
           <a href="#" className="nav-link text-white">
             <svg className="bi me-2" width="16" height="16"></svg>
             Profile
           </a>
-        </li>
+        </li> */}
       </ul>
       <hr/>
       <div className="dropdown">

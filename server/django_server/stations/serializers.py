@@ -1,4 +1,4 @@
-import datetime
+from datetime import date, datetime , timezone
 from .models import Journey, Station, Bike
 from rest_framework import serializers
 from django.core import serializers as core_serializers
@@ -34,8 +34,15 @@ class StationSerializer(serializers.ModelSerializer):
                 'space' : instance.space,
                 'bikes' : list(Bike.objects.filter(station_id_id = instance.id).values()),
         } 
-class JourneySerializer(serializers.ModelSerializer):
+class HistoryJourneySerializer(serializers.ModelSerializer):
+    startStation = StationSerializer()
+    stopStation = StationSerializer()
     
+    class Meta:
+        model = Journey
+        fields = '__all__'
+class JourneySerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Journey
         fields = '__all__'
@@ -77,6 +84,10 @@ class JourneySerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"no_station": "That station doesn't exists!"})
         if len(bikes) >= space:
             raise serializers.ValidationError({"full_station": "We're sorry this station is full, try with another one."})
+        # print(list(list(journey.values())[0].values()))
+        # print(datetime.now(timezone.utc))
+        # print(datetime.now(timezone.utc) - list(list(journey.values())[0].values())[6])
         Bike.objects.filter(id = list(list(journey.values())[0].values())[5]).update(station_id_id=validated_data['stopStation'])
-        journey.update(stopStation=validated_data['stopStation'])
-        # Journey.objects.filter(user = validated_data['user'], stopStation = None).update(stopStation=validated_data['stopStation'])
+        journey.update(stopStation=validated_data['stopStation'], time = datetime.now(timezone.utc) - list(list(journey.values())[0].values())[6])
+        # Journey.objects.filter(user = validated_data['user'], stopStation = None).update(stopStation=validated_data['stopStation'])´
+
