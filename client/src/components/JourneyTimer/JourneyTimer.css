@@ -1,0 +1,10 @@
+.timer {
+    background-color: #bb86fc;
+    text-align: center;
+    font-size: 3em;
+    border-radius: 8px;
+    font-family: sans-serif;
+}
+.timerIcon {
+    margin-right: 0.5em;
+}

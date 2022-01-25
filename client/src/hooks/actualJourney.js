@@ -21,6 +21,7 @@ export function JourneyMutation() {
             console.log(_); // Log variables
         },
         onSuccess: (data, variables) => {
+            // console.log(variables);
             // en este cas data i variables son lo mateix ja que variables son els inputs de la mutation i data el que retorna al començar la mutation com no faig cap tipus de modificacio de datos ni faig us del api client i sols retorne el propi payload es queda en el mateix
             queryClient.setQueryData(queryKey, () => ({
                 start: variables.start || false,

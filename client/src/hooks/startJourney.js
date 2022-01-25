@@ -2,8 +2,6 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { useMutation, useQueryClient } from 'react-query'
 import apiClient from '../core/http-common'
-import { GetStations } from "./getStations";
-
 export function StartJourneyMutation() {
     const queryClient = useQueryClient()
     const queryKey = 'journey'
@@ -11,6 +9,7 @@ export function StartJourneyMutation() {
         onMutate: async () => {
         },
         onError: (err, _, context) => {
+            console.log(err.response.data); // Log error
             const MySwal = withReactContent(Swal)
             MySwal.fire({
               didOpen: () => {
@@ -21,13 +20,12 @@ export function StartJourneyMutation() {
             })
         },
         onSuccess: (info, variables) => {
-            console.log(info);
-            console.log(variables);
+          console.log(info);
             queryClient.setQueryData(queryKey, () => ({
                 start: true,
                 startStation:variables.startStation || undefined,
                 startName: variables.startName || undefined,
-                startDate: variables.startDate || undefined,
+                startDate: info.data.start,
                 stopStation: variables.stopStation || undefined,
                 stopName: variables.stopName || undefined
             }))

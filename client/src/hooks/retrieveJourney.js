@@ -30,7 +30,7 @@ export function RetrieveJourney() {
                     start: true,
                     startStation: data.data.startStation || undefined,
                     startName: data.data.startName || undefined,
-                    startDate: data.data.startDate || undefined,
+                    startDate: data.data[0].start,
                     stopStation: data.data.stopStation || undefined,
                     stopName: data.data.stopName || undefined
     

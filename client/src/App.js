@@ -10,6 +10,7 @@ import Sidebar from "./components/Sidebar";
 import StartPoints from "./components/StartPoints";
 import StartJourney from "./components/StartJourney"; 
 import History from "./pages/History";
+import Pricing from "./pages/Pricing";
 
 export default function App() {
 const Auth = React.lazy(() => import("./pages/Auth"));
@@ -21,6 +22,7 @@ const Auth = React.lazy(() => import("./pages/Auth"));
           <Route path="/" element={<StartJourney/>}/>
         </Route>
         <Route path="/history" element={<History/>} />
+        <Route path="/pricing" element={<Pricing/>} />
         <Route path="objectives" element={<Objectives />} />
         <Route path="rest" element={<Rest />} />
       </Route>

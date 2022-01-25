@@ -3,6 +3,7 @@ import { Outlet, Link, useLocation } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHistory, faBicycle, faMoneyBill } from '@fortawesome/free-solid-svg-icons'
 import './Sidebar.css'
+import JourneyTimer from "../JourneyTimer"
 export default function Sidebar() {
   const location = useLocation();
   return (
@@ -43,6 +44,9 @@ export default function Sidebar() {
         </li> */}
       </ul>
       <hr/>
+      <div>
+        <JourneyTimer/>  
+      </div>
       <div className="dropdown">
         <a href="#" className="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
           <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2"/>
