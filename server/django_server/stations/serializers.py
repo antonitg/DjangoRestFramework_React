@@ -1,7 +1,12 @@
 from datetime import date, datetime , timezone
+import profile
+from urllib import request
+from django.db.models import F
+from profiles.models import Profile, Transactions
 from .models import Journey, Station, Bike
 from rest_framework import serializers
 from django.core import serializers as core_serializers
+from profiles.seralizers import ProfileSerializer
 
 # from rest_framework.validators import UniqueValidator
 
@@ -54,9 +59,11 @@ class JourneySerializer(serializers.ModelSerializer):
         
         validated_data.startStation = StationSerializer(validated_data['startStation'])
         bikes = list(validated_data.startStation.data.values())[6] #Position 6 is the bikes position may change 
-        
+        print(Profile.objects.filter(id=validated_data['user'].id))
         if len(Journey.objects.filter(user = validated_data['user'], stopStation = None)) > 0:
             raise serializers.ValidationError({"already_on_joruney": "You're already on a journey, finish it first to start another!"})
+        if Profile.objects.filter(id=validated_data['user'].id).first().money <= 0:
+            raise serializers.ValidationError({"not_enough_money": "You don't have enough money!"})
         if not Station.objects.filter(id=validated_data['startStation'].id).exists():
             raise serializers.ValidationError({"no_station": "That station doesn't exists!"})
         if len(bikes) <= 0:
@@ -85,6 +92,10 @@ class JourneySerializer(serializers.ModelSerializer):
         if len(bikes) >= space:
             raise serializers.ValidationError({"full_station": "We're sorry this station is full, try with another one."})
         Bike.objects.filter(id = list(list(journey.values())[0].values())[5]).update(station_id_id=validated_data['stopStation'])
-        journey.update(stopStation=validated_data['stopStation'], time = datetime.now(timezone.utc) - list(list(journey.values())[0].values())[6])
-        # Journey.objects.filter(user = validated_data['user'], stopStation = None).update(stopStation=validated_data['stopStation'])´
+        totaltime = datetime.now(timezone.utc) - list(list(journey.values())[0].values())[6]
+        cost = round(float(((totaltime.total_seconds()) /60) / 100),2)
+        Profile.objects.filter(id=validated_data['user'].id).update(money = F('money')-cost)
+        journey.update(stopStation=validated_data['stopStation'], time=totaltime, cost = cost )
+        if cost > 0:
+            Transactions.objects.create(id=validated_data['user'].id,user=validated_data['user'],amount=-cost)
 

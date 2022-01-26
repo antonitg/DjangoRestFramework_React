@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'stations',
     'corsheaders',
     'core',
+    'profiles',
 ]
 
 REST_FRAMEWORK = {

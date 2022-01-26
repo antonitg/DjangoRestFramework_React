@@ -20,7 +20,7 @@ class GetStations_APIView(generics.ListAPIView):
 class JourneyViewSet(viewsets.GenericViewSet):  # <- Definir els mixins 
     # Declarar variables propies de la clase
     serializer_class = JourneySerializer;
-    permission_classes = [AllowAny,]
+    permission_classes = [IsAuthenticated,]
     # https://www.django-rest-framework.org/api-guide/viewsets/ definir-los en views i urls
     def actual(self, request):
         queryset = Journey.objects.filter(stopStation = None, user = request.user)
