@@ -13,7 +13,9 @@ const ApiService = {
     get(path) {
         return httpClient.get(path)
         .catch((error) => {throw error})
-
+    },
+    getNoError(path){
+        return httpClient.get(path).catch(function (error) {return error})
     },
     post(path, body) {
         return httpClient.post(path, body)
