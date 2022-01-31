@@ -97,5 +97,5 @@ class JourneySerializer(serializers.ModelSerializer):
         Profile.objects.filter(id=validated_data['user'].id).update(money = F('money')-cost)
         journey.update(stopStation=validated_data['stopStation'], time=totaltime, cost = cost )
         if cost > 0:
-            Transactions.objects.create(id=validated_data['user'].id,user=validated_data['user'],amount=-cost)
+            Transactions.objects.create(user=validated_data['user'],amount=-cost)
 

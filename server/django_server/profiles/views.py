@@ -13,6 +13,9 @@ class TransactionsViewSet(viewsets.GenericViewSet):  # <- Definir els mixins
         queryset = Transactions.objects.filter(user = request.user.id)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
     def create(self, request):
         serializer_data = {
             'user': request.user.id,
@@ -25,10 +28,8 @@ class TransactionsViewSet(viewsets.GenericViewSet):  # <- Definir els mixins
 class ProfileViewSet(viewsets.GenericViewSet):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
+    
     def get_money(self,request):
         queryset = Profile.objects.filter(user = request.user.id).first()
-        print(queryset)
         serializer = self.serializer_class(queryset)
-        print(serializer)
-        print(serializer.data)
         return Response(serializer.data)

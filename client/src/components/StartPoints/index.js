@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect }  from "react"
 import Station from "../Station";
 import { useQueryClient } from 'react-query'
@@ -18,7 +19,7 @@ export default function StartPoints() {
       mutateAsync({}) // Fill empty mutation at the start of the app to ensure so all querys triggers and dependent components works properly 
       apiClient.get("/v2/stations/").then(result => queryClient.setQueryData(['stations'], () => (result.data))) // Fill te station query
     }, [])
-    if (error) console.log(error); //window.location.href = '/auth'
+    // if (error) console.log(error); //window.location.href = '/auth'
     var listStations = null;
     if (stationsFull) {
           listStations = stationsFull.map((station) =>
@@ -27,7 +28,7 @@ export default function StartPoints() {
     }
   return (
     <> 
-      <div className="col row" style={{backgroundColor:"#332940", padding: "12px"}}>
+      <div className="col row" style={{backgroundColor:"#332940", padding: "12px", marginBottom: "100px"}}>
         {listStations}
         <Outlet/>
       </div>

@@ -26,6 +26,8 @@ class JourneyViewSet(viewsets.GenericViewSet):  # <- Definir els mixins
         queryset = Journey.objects.filter(stopStation = None, user = request.user)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
     def history(self, request):
         queryset = Journey.objects.filter(user = request.user)
         serializer = HistoryJourneySerializer(queryset, many=True)
@@ -42,6 +44,8 @@ class JourneyViewSet(viewsets.GenericViewSet):  # <- Definir els mixins
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer.validated_data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
     def stop(self, request):
         serializer_data = {
             'user': request.user.id,

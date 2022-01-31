@@ -11,3 +11,6 @@ a:hover {
     text-decoration:none; 
     cursor:pointer;  
 }
+.row {
+    --bs-gutter-x: 0 !important;  
+  }
