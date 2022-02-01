@@ -3,13 +3,19 @@ from .seralizers import TransactionsSerializer, ProfileSerializer
 from rest_framework.permissions import IsAuthenticated
 from .models import Profile, Transactions
 from rest_framework.response import Response
-
+from .permissions import IsWorker
 # Create your views here.
 class TransactionsViewSet(viewsets.GenericViewSet):  # <- Definir els mixins 
     serializer_class = TransactionsSerializer
-    permission_classes = [IsAuthenticated,]
-
+    permission_classes = [IsWorker,]
     def history(self, request):
+        # print(self)
+        # print(self.permission_classes)
+        # print(request.user.profile)
+
+        self.check_object_permissions(self.request, obj = request)
+
+        # self.permission_classes = [IsWorker, ]
         queryset = Transactions.objects.filter(user = request.user.id)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
