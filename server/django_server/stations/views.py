@@ -1,5 +1,7 @@
 from datetime import datetime , timezone
 from logging import raiseExceptions
+
+from profiles.permissions import IsWorker
 from .models import Journey, Station, Bike
 from rest_framework import status, generics, viewsets
 from django.http.response import HttpResponse
@@ -17,6 +19,30 @@ class GetStations_APIView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Station.objects.all()
     serializer_class = StationSerializer
+
+class StationsAdminViewSet(viewsets.GenericViewSet):
+    serializer_class = StationSerializer;
+    permission_classes = [IsWorker,]
+    def create(self, request):
+        serializer_data = {
+            'name': request.data.get('name'),
+            'location': request.data.get('location'),
+            'photo': request.data.get('photo'),
+            'space':request.data.get('space')
+        }
+        serializer = self.serializer_class(data=serializer_data, fields=('name','location','photo', 'space'))
+        serializer.is_valid(raise_exception=True)
+        toReturn = serializer.create(serializer.validated_data)
+        return Response(toReturn, status=status.HTTP_201_CREATED)
+
+    def update(self, request):
+        serializer_data = request.data
+        serializer = self.serializer_class(data=serializer_data, fields=('name', 'id', 'space'))
+        serializer.is_valid(raise_exception=True)
+        # serializer.update(data=serializer_data)
+        if serializer.update(serializer, serializer.validated_data):
+            return Response("Updated!", status=status.HTTP_202_ACCEPTED)
+        return Response("Not Updated!", status=status.HTTP_304_NOT_MODIFIED)
 class JourneyViewSet(viewsets.GenericViewSet):  # <- Definir els mixins 
     # Declarar variables propies de la clase
     serializer_class = JourneySerializer;

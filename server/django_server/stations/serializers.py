@@ -1,24 +1,26 @@
 from datetime import date, datetime , timezone
-import profile
-from urllib import request
 from django.db.models import F
 from profiles.models import Profile, Transactions
 from .models import Journey, Station, Bike
 from rest_framework import serializers
 from django.core import serializers as core_serializers
 from profiles.seralizers import ProfileSerializer
-
+from core.serializers import DynamicFieldsModelSerializer
 # from rest_framework.validators import UniqueValidator
 
 class BikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bike
+        # fields = None
         fields = "__all__"
 
-class StationSerializer(serializers.ModelSerializer):
+
+class StationSerializer(DynamicFieldsModelSerializer):
+
     class Meta:
         model = Station
         fields = '__all__'
+        # fields = []
     def to_representation(self, instance):
         return {
                 'id' : instance.id,
@@ -39,6 +41,30 @@ class StationSerializer(serializers.ModelSerializer):
                 'space' : instance.space,
                 'bikes' : list(Bike.objects.filter(station_id_id = instance.id).values()),
         } 
+    def create(self, validated_data):  
+        if Station.objects.create(name=validated_data['name'],location=validated_data['location'],photo=validated_data['photo'],space=validated_data['space']):
+            return "Created"
+        raise serializers.ValidationError({"error_creating": "An strange error ocurred during the creation."})
+
+    def update(self, instance,validated_data):
+        print("instance")
+        try:
+            if not Station.objects.filter(id=instance.initial_data.get("id")).exists():
+                raise serializers.ValidationError({"error_updating": "This stations does not exists."})
+            instance = Station.objects.filter(id=instance.initial_data.get("id")).first()
+        except:
+            raise serializers.ValidationError({"invalid_data_type": "ID must be an string."})
+        print("instance")
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        print("instance")
+
+        print("instance")
+        instance.save()
+        print(instance)
+        return instance
+    
 class HistoryJourneySerializer(serializers.ModelSerializer):
     startStation = StationSerializer()
     stopStation = StationSerializer()

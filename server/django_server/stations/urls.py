@@ -10,5 +10,7 @@ urlpatterns = [
     path('v2/journey/history/', JourneyViewSet.as_view({'get': 'history'})),
     path('v2/journey/', JourneyViewSet.as_view({'post': 'create'})),
     path('v2/journey/stop/', JourneyViewSet.as_view({'post': 'stop'})),
+    path('v3/stations/', StationsAdminViewSet.as_view({'post':'create'})),
+    path('v3/stations/update/', StationsAdminViewSet.as_view({'post':'update'}))
 
 ]
