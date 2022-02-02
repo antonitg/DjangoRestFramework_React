@@ -47,22 +47,17 @@ class StationSerializer(DynamicFieldsModelSerializer):
         raise serializers.ValidationError({"error_creating": "An strange error ocurred during the creation."})
 
     def update(self, instance,validated_data):
-        print("instance")
         try:
             if not Station.objects.filter(id=instance.initial_data.get("id")).exists():
                 raise serializers.ValidationError({"error_updating": "This stations does not exists."})
             instance = Station.objects.filter(id=instance.initial_data.get("id")).first()
         except:
             raise serializers.ValidationError({"invalid_data_type": "ID must be an string."})
-        print("instance")
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
-        print("instance")
 
-        print("instance")
         instance.save()
-        print(instance)
         return instance
     
 class HistoryJourneySerializer(serializers.ModelSerializer):
