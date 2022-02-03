@@ -12,8 +12,9 @@ const Sidebar = React.lazy(() => import("./components/Sidebar"))
 const StartPoints = React.lazy(() => import("./components/StartPoints"))
 const History = React.lazy(() => import("./pages/History"))
 const Pricing = React.lazy(() => import("./pages/Pricing"))
-// const AuthRoute = React.lazy(() => import("./components/AuthRoute"))
+// const AuthRoute = React.lazy(() => import("./core/AuthRoute"))
 const StartJourney = React.lazy(() => import("./components/StartJourney"))
+const AdminStationsManagement = React.lazy(() => import("./components/AdminStationsManagement"))
 
 return (
     <BrowserRouter>
@@ -26,6 +27,8 @@ return (
         </Route>
         <Route path="/history" element={<History/>} />
         <Route path="/pricing" element={<Pricing/>} />
+        <Route path="/admin" element={<AdminStationsManagement/>} />
+        
       </Route>
       <Route path="auth" element={
               <React.Suspense fallback={<>...</>}>
