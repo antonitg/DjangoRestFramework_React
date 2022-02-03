@@ -1,6 +1,6 @@
 from datetime import datetime , timezone
 from logging import raiseExceptions
-
+from django.core import serializers
 from profiles.permissions import IsWorker
 from .models import Journey, Station, Bike
 from rest_framework import status, generics, viewsets
@@ -20,6 +20,25 @@ class GetStations_APIView(generics.ListAPIView):
     queryset = Station.objects.all()
     serializer_class = StationSerializer
 
+class BikeAdminViewSet(viewsets.GenericViewSet):
+    serializer_class = BikeSerializer;
+    permission_classes = [IsWorker,];
+    def create(self, request):
+        serializer_data = {
+            'name': request.data.get('name'),
+            'station_id':request.data.get('station_id')
+        }
+        serializer = self.serializer_class(data=serializer_data, fields=('name','station_id'))
+        serializer.is_valid(raise_exception=True)
+        serializer.create(serializer.validated_data)
+        return Response("Created!", status=status.HTTP_201_CREATED)
+    def update(self, request):
+        serializer_data = request.data
+        serializer = self.serializer_class(data=serializer_data, fields=('name', 'uid', 'station_id'))
+        serializer.is_valid(raise_exception=True)
+        if serializer.update(serializer, serializer.validated_data):
+            return Response("Updated!", status=status.HTTP_202_ACCEPTED)
+        return Response("Not Updated!", status=status.HTTP_304_NOT_MODIFIED)
 class StationsAdminViewSet(viewsets.GenericViewSet):
     serializer_class = StationSerializer;
     permission_classes = [IsWorker,]
@@ -39,7 +58,6 @@ class StationsAdminViewSet(viewsets.GenericViewSet):
         serializer_data = request.data
         serializer = self.serializer_class(data=serializer_data, fields=('name', 'id', 'space'))
         serializer.is_valid(raise_exception=True)
-        # serializer.update(data=serializer_data)
         if serializer.update(serializer, serializer.validated_data):
             return Response("Updated!", status=status.HTTP_202_ACCEPTED)
         return Response("Not Updated!", status=status.HTTP_304_NOT_MODIFIED)

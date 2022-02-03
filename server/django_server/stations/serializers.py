@@ -1,4 +1,5 @@
 from datetime import date, datetime , timezone
+from xmlrpc.client import DateTime
 from django.db.models import F
 from profiles.models import Profile, Transactions
 from .models import Journey, Station, Bike
@@ -8,19 +9,29 @@ from profiles.seralizers import ProfileSerializer
 from core.serializers import DynamicFieldsModelSerializer
 # from rest_framework.validators import UniqueValidator
 
-class BikeSerializer(serializers.ModelSerializer):
+class BikeSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = Bike
-        # fields = None
         fields = "__all__"
+    def create(self, validated_data):
+        return Bike.objects.create(status=1, name=validated_data['name'], station_id_id=validated_data['station_id'].id,time=0)
+    def update(self, instance,  validated_data):
+        try:
+            if not Bike.objects.filter(id=instance.initial_data.get("uid")).exists():
+                raise serializers.ValidationError({"error_updating": "This stations does not exists."})
+            instance = Bike.objects.filter(id=instance.initial_data.get("uid")).first()
+        except:
+            raise serializers.ValidationError({"invalid_data_type": "ID must be an string."})
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
 
-
+        instance.save()
+        return instance       
 class StationSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = Station
         fields = '__all__'
-        # fields = []
     def to_representation(self, instance):
         return {
                 'id' : instance.id,
@@ -80,7 +91,6 @@ class JourneySerializer(serializers.ModelSerializer):
         
         validated_data.startStation = StationSerializer(validated_data['startStation'])
         bikes = list(validated_data.startStation.data.values())[6] #Position 6 is the bikes position may change 
-        print(Profile.objects.filter(id=validated_data['user'].id))
         if len(Journey.objects.filter(user = validated_data['user'], stopStation = None)) > 0:
             raise serializers.ValidationError({"already_on_joruney": "You're already on a journey, finish it first to start another!"})
         if Profile.objects.filter(id=validated_data['user'].id).first().money <= 0:

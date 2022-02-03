@@ -18,7 +18,7 @@ class Bike(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     name = models.TextField(blank=True)
     status =  models.IntegerField(blank=False, default=1)
-    time = models.DurationField(blank=True)
+    time = models.IntegerField(blank=True)
     station_id = models.ForeignKey(Station, null=True, on_delete=models.SET_NULL)
 
 
