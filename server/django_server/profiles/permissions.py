@@ -1,9 +1,8 @@
 from rest_framework import permissions
 
 class IsWorker(permissions.BasePermission):  
-
-    def has_object_permission(self, request, view, obj=None):
-        # return True
+    message = 'You are not a worker'
+    def has_permission(self, request, view):
         try: 
             # print(request.user.profiles == 1)
             # print(request.user.profile.isWorker == 0)
