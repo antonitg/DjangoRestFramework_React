@@ -5,6 +5,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from profiles.permissions import IsWorker
 from .serializers import RegisterSerializer
 from rest_framework import serializers
 from django.contrib.auth.models import User
@@ -22,7 +23,10 @@ class Register_APIView(generics.CreateAPIView):
 class Info_APIView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, format=None, *args, **kwargs):
-        # user = User.objects.all()
-        # serializer_class = RegisterSerializers
-        # data = core_serializers.serialize('json', request)
-        return HttpResponse(request.user.id, content_type="application/json")
+        return Response({"id":request.user.id,"worker":request.user.profile.isWorker}, content_type="application/json")
+
+class AdminInfo_APIView(APIView):
+    permission_classes = [IsWorker,]
+    def get(self, request, format=None, *args, **kwargs):
+        return Response({"id":request.user.id,"worker":request.user.profile.isWorker}, content_type="application/json")
+
