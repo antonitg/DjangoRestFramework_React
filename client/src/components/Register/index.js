@@ -7,7 +7,6 @@ const password = useRef({});
 password.current = watch("password", "");
 const { mutateAsync } = AttemptRegister()
 function onSubmit(data) {
-    console.log(data);
     mutateAsync({
       user: {
         data,

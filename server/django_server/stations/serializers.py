@@ -14,6 +14,8 @@ class BikeSerializer(DynamicFieldsModelSerializer):
         model = Bike
         fields = "__all__"
     def create(self, validated_data):
+        if Bike.objects.filter(station_id_id = validated_data['station_id'].id).count() >= Station.objects.filter(id=validated_data['station_id'].id).first().space:
+            raise serializers.ValidationError({"full_station": "This station is full try with another one."})
         return Bike.objects.create(status=1, name=validated_data['name'], station_id_id=validated_data['station_id'].id,time=0)
     def update(self, instance,  validated_data):
         try:
@@ -22,6 +24,11 @@ class BikeSerializer(DynamicFieldsModelSerializer):
             instance = Bike.objects.filter(id=instance.initial_data.get("uid")).first()
         except:
             raise serializers.ValidationError({"invalid_data_type": "ID must be an string."})
+        # print(Station.objects.filter(id=validated_data['station_id'].id).first())
+        # print(Station.objects.filter(id=validated_data['station_id'].id).first().space)
+
+        if Bike.objects.filter(station_id_id = validated_data['station_id'].id).count() >= Station.objects.filter(id=validated_data['station_id'].id).first().space:
+            raise serializers.ValidationError({"full_station": "This station is full try with another one."})
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
