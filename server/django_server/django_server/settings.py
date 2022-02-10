@@ -51,8 +51,7 @@ SECRET_KEY = 'django-insecure-**x$jvh%v8$*c8^-kus5ozz#2#bn&woes#0e*bger4^exsweh(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+# ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'localhost']
 
 # Application definition
 
@@ -93,15 +92,18 @@ MIDDLEWARE = [
 # CORS_ORIGIN_ALLOW_ALL = True
 
 # CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    "http://127.0.0.1:3000"
-] # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
-# CORS_ORIGIN_WHITELIST = (
+# CORS_ALLOWED_ORIGINS = [
 #     'http://localhost:3000',
 #     "http://127.0.0.1:3000",
+#     'http://0.0.0.0:3000',
+# ] # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
+# CORS_ORIGIN_WHITELIST = (
+#     'http://127.0.0.1:3000','http://localhost:3000','http://0.0.0.0:3000',
 # )
-ALLOWED_HOSTS=['*']
+CORS_ORIGIN_ALLOW_ALL = True
+ALLOWED_HOSTS = ['*']
+
+# ALLOWED_HOSTS=['*']
 # CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'django_server.urls'
 
@@ -132,9 +134,10 @@ DATABASES = {
         'ENGINE'  : 'django.db.backends.mysql', # <-- UPDATED line 
         'NAME'    : 'tcyl',                 # <-- UPDATED line 
         'USER'    : 'root',                     # <-- UPDATED line
-        'PASSWORD': 'antoni',              # <-- UPDATED line
-        'HOST'    : 'localhost',                # <-- UPDATED line
-        'PORT'    : '3306',
+        'PASSWORD': 'root',              # <-- UPDATED line
+        # 'PASSWORD': 'antoni',              # <-- UPDATED line
+        'HOST'    : 'db',                # <-- UPDATED line
+        'PORT'    : 3306,
     }
 }
 
