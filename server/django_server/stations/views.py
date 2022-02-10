@@ -23,6 +23,14 @@ class GetStations_APIView(generics.ListAPIView):
 class BikeAdminViewSet(viewsets.GenericViewSet):
     serializer_class = BikeSerializer;
     permission_classes = [IsWorker,];
+    def delete(self, request):
+        serializer_data = {
+            'uid' : request.data.get('uid')
+        }
+        serializer = self.serializer_class(data=serializer_data, fields=('uid',))
+        serializer.is_valid(raise_exception=True)
+        serializer.delete(serializer, serializer.validated_data)
+        return Response("Deleted!", status=status.HTTP_200_OK)
     def create(self, request):
         serializer_data = {
             'name': request.data.get('name'),
@@ -56,14 +64,21 @@ class StationsAdminViewSet(viewsets.GenericViewSet):
 
     def update(self, request):
         serializer_data = request.data
-        serializer = self.serializer_class(data=serializer_data, fields=('name', 'id', 'space'))
+        serializer = self.serializer_class(data=serializer_data, fields=('name', 'id', 'space', 'photo'))
         serializer.is_valid(raise_exception=True)
         if serializer.update(serializer, serializer.validated_data):
             return Response("Updated!", status=status.HTTP_202_ACCEPTED)
         return Response("Not Updated!", status=status.HTTP_304_NOT_MODIFIED)
+    def delete(self, request):
+        serializer_data = request.data
+        serializer = self.serializer_class(data=serializer_data, fields=('id',))
+        serializer.is_valid(raise_exception=True)
+        serializer.delete(serializer, serializer.validated_data)
+        return Response("Removed!", status=status.HTTP_202_ACCEPTED)
+    
 class JourneyViewSet(viewsets.GenericViewSet):  # <- Definir els mixins 
     # Declarar variables propies de la clase
-    serializer_class = JourneySerializer;
+    serializer_class = JourneySerializer
     permission_classes = [IsAuthenticated,]
     # https://www.django-rest-framework.org/api-guide/viewsets/ definir-los en views i urls
     def actual(self, request):

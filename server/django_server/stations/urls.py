@@ -12,7 +12,10 @@ urlpatterns = [
     path('v2/journey/stop/', JourneyViewSet.as_view({'post': 'stop'})),
     path('v3/stations/', StationsAdminViewSet.as_view({'post':'create'})),
     path('v3/stations/update/', StationsAdminViewSet.as_view({'post':'update'})),
+    path('v3/stations/delete/', StationsAdminViewSet.as_view({'post':'delete'})),
     path('v3/bikes/', BikeAdminViewSet.as_view({'post':'create'})),
-    path('v3/bikes/update/', BikeAdminViewSet.as_view({'post':'update'}))
+    path('v3/bikes/update/', BikeAdminViewSet.as_view({'post':'update'})),
+    path('v3/bikes/delete/', BikeAdminViewSet.as_view({'post':'delete'}))
+
 
 ]

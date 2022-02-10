@@ -1,25 +1,32 @@
 import React, {useState} from "react"
+import { DeleteBike } from "../../hooks/deleteBike"
+import { EditBike } from "../../hooks/editBike"
+
 import { Modal, Button } from 'react-bootstrap';
 export default function  AdminBike(props) {
+    const { mutateAsync:editBike } = EditBike();
+    const { mutateAsync:deleteBike } = DeleteBike();
     var bikes = null
     var space = null
-    var editing = false
+    const remove = () => {
+        deleteBike({'uid':actual.id})
+        handleClose()
+    }
+    const saveBike = () => {
+        editBike({'uid':actual.id,'name':document.getElementById("floatingInputValue").value, 'station_id':props.station})
+        handleClose()
+    }
     const handleClose = () => setShow(false);
     const [actual, setActual] = useState(false);
     const [show, setShow] = useState(false);
     function dblclck(e) {
-        setActual(e.target.title)
+        setActual({id:e.target.id,name:e.target.title})
         setShow(true);
         
     }
-    console.log(actual)
     function dragStart(e) {
         e.dataTransfer.setData("Text", e.target.id);
         e.dataTransfer.setData("Name", e.target.title);
-      e
-        .currentTarget
-        .style
-        .backgroundColor = '#BB86FC';
     }
     if (props.bikes) {
         bikes = props.bikes.map((bike) =>
@@ -37,19 +44,19 @@ export default function  AdminBike(props) {
             {space}
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>Updating Bike</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <form className="form-floating">
-                    <input type="email" className="form-control" id="floatingInputValue" placeholder={actual}/>
-                    <label htmlFor="floatingInputValue">{actual}</label>
+                    <input type="email" className="form-control" id="floatingInputValue" placeholder={actual.name}/>
+                    <label htmlFor="floatingInputValue">{actual.name}</label>
                 </form>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
+                <Button variant="danger" onClick={remove}>
+                    Remove
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
+                <Button variant="primary" onClick={saveBike}>
                     Save Changes
                 </Button>
                 </Modal.Footer>

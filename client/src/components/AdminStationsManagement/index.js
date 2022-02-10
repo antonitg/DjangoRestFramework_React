@@ -2,6 +2,7 @@ import React, { useEffect }  from "react"
 import { useQuery,useQueryClient } from "react-query";
 import apiClient from "../../core/http-common";
 import AdminStation from "../AdminStation";
+import AddStation from '../AddStation'
 export default function AdminStationsManagement() {
 
     const queryClient = useQueryClient()
@@ -19,6 +20,8 @@ export default function AdminStationsManagement() {
         <>
             <div className="col row" style={{backgroundColor:"#332940", padding: "12px", marginBottom: "100px"}}>
                 {listStations}
+                <AddStation></AddStation>
+                {/* {AddStation} */}
             </div>
 
         </>

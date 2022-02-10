@@ -13,6 +13,8 @@ class BikeSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = Bike
         fields = "__all__"
+    def delete(self, instance, valdiated_data):
+        Bike.objects.filter(id=instance.initial_data.get("uid")).delete()
     def create(self, validated_data):
         if Bike.objects.filter(station_id_id = validated_data['station_id'].id).count() >= Station.objects.filter(id=validated_data['station_id'].id).first().space:
             raise serializers.ValidationError({"full_station": "This station is full try with another one."})
@@ -33,7 +35,7 @@ class BikeSerializer(DynamicFieldsModelSerializer):
             setattr(instance, attr, value)
 
         instance.save()
-        return instance       
+        return instance
 class StationSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
@@ -65,6 +67,9 @@ class StationSerializer(DynamicFieldsModelSerializer):
         raise serializers.ValidationError({"error_creating": "An strange error ocurred during the creation."})
 
     def update(self, instance,validated_data):
+        nBikes = Bike.objects.filter(station_id_id = instance.initial_data.get("id")).count()
+        if nBikes > validated_data['space']:
+            raise serializers.ValidationError({"error_updating": "Wrong space number, it must be at least as the number of bikes in this station ("+str(nBikes)+"), try with more space or remove/move some bikes!"})
         try:
             if not Station.objects.filter(id=instance.initial_data.get("id")).exists():
                 raise serializers.ValidationError({"error_updating": "This stations does not exists."})
@@ -77,7 +82,12 @@ class StationSerializer(DynamicFieldsModelSerializer):
 
         instance.save()
         return instance
-    
+    def delete(self, instance, validated_data):
+        actual = Station.objects.get(id = instance.initial_data.get('id'))
+        if Bike.objects.filter(station_id_id = actual.id).count() > 0:
+            raise serializers.ValidationError({"problem_deleting": "There are bikes in this station, to remove it first remove or replace bikes from it."})
+        actual.delete()
+        
 class HistoryJourneySerializer(serializers.ModelSerializer):
     startStation = StationSerializer()
     stopStation = StationSerializer()

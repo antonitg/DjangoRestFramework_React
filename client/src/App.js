@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import React from "react";
 import AuthRoute from './core/AuhtRoute'
+import AdminRoute from "./core/AdminRoute";
 
 export default function App() {
 const Auth = React.lazy(() => import("./pages/Auth"));
@@ -19,16 +20,13 @@ const AdminStationsManagement = React.lazy(() => import("./components/AdminStati
 return (
     <BrowserRouter>
     <Routes>
-
       <Route path="/"  element={<React.Suspense fallback={<>...</>}><AuthRoute><Sidebar/></AuthRoute></React.Suspense>}>
-      
         <Route path="/"  element={<StartPoints />}>
           <Route path="/" element={<StartJourney/>}/>
         </Route>
         <Route path="/history" element={<History/>} />
         <Route path="/pricing" element={<Pricing/>} />
-        <Route path="/admin" element={<AdminStationsManagement/>} />
-        
+        <Route path="/admin" element={<React.Suspense fallback={<>...</>}><AdminRoute><AdminStationsManagement/></AdminRoute></React.Suspense>} />
       </Route>
       <Route path="auth" element={
               <React.Suspense fallback={<>...</>}>

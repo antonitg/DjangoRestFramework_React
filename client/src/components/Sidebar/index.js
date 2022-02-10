@@ -1,7 +1,7 @@
 import React from "react"
 import { Outlet, Link, useLocation } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHistory, faBicycle, faMoneyBill } from '@fortawesome/free-solid-svg-icons'
+import { faHistory, faBicycle, faMoneyBill, faWrench } from '@fortawesome/free-solid-svg-icons'
 import './Sidebar.css'
 import JourneyTimer from "../JourneyTimer"
 export default function Sidebar() {
@@ -13,7 +13,7 @@ export default function Sidebar() {
   <div className="col-4 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style={{width: '340px', height: "100vh"}}>
       <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
         <svg className="bi me-2" width="40" height="32"></svg>
-        <span className="fs-4">Sidebar</span>
+        <span className="fs-4">BIKEAPP</span>
       </a>
       <hr/>
       <ul className="nav nav-pills flex-column mb-auto">
@@ -36,12 +36,14 @@ export default function Sidebar() {
               Pricing
               </Link>
         </li>
-        {/* <li>
-          <a href="#" className="nav-link text-white">
-            <svg className="bi me-2" width="16" height="16"></svg>
-            Profile
-          </a>
-        </li> */}
+        <li>
+        {localStorage.getItem('admin') === "y" && 
+        <Link to="admin" className={`nav-link text-white ${location.pathname === '/admin' ? "active" : ""}`}>
+          <FontAwesomeIcon style={{marginRight: "20px"}} icon={faWrench} />
+            Management
+          </Link>
+        }
+        </li>
       </ul>
       <hr/>
       <div>
