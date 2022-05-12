@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'core',
     'profiles',
+    'incidences'
 ]
 
 REST_FRAMEWORK = {

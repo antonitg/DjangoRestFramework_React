@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/', include('user.urls', namespace='user')),
     path('api/', include('stations.urls', namespace='stations')),
     path('api/', include('profiles.urls', namespace='profiles')),
+    path('api/', include('incidences.urls', namespace='incidences')),
 
 # path('api/', include('api_app.urls')
 ]

@@ -116,7 +116,6 @@ class JourneySerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"no_station": "That station doesn't exists!"})
         if len(bikes) <= 0:
             raise serializers.ValidationError({"not_enough_bikes": "There are no bikes in this station"})      
-        print(list(bikes[0].values())[0])
         Bike.objects.filter(id = list(bikes[0].values())[0]).update(station_id_id=None)
         return Journey.objects.create(
             user=validated_data['user'],
