@@ -16,7 +16,7 @@ const Pricing = React.lazy(() => import("./pages/Pricing"))
 // const AuthRoute = React.lazy(() => import("./core/AuthRoute"))
 const StartJourney = React.lazy(() => import("./components/StartJourney"))
 const AdminStationsManagement = React.lazy(() => import("./components/AdminStationsManagement"))
-
+const Incidences = React.lazy(() => import("./pages/Incidences"))
 return (
     <BrowserRouter>
     <Routes>
@@ -27,6 +27,7 @@ return (
         <Route path="/history" element={<History/>} />
         <Route path="/pricing" element={<Pricing/>} />
         <Route path="/admin" element={<React.Suspense fallback={<>...</>}><AdminRoute><AdminStationsManagement/></AdminRoute></React.Suspense>} />
+        <Route path="/incidences" element={<React.Suspense fallback={<>...</>}><AdminRoute><Incidences/></AdminRoute></React.Suspense>} />
       </Route>
       <Route path="auth" element={
               <React.Suspense fallback={<>...</>}>

@@ -6,8 +6,6 @@ export default function AuthRoute({children}) {
     apiClient.getNoError('/v1/check/').then(res => {
         if (res.status === 200) {
             setAuth(children)
-            // (res.data.worker === 1) ? 'y' : 'n'
-            console.log(res);
             localStorage.setItem('admin', (res.data.worker === 1) ? 'y' : 'n')
         } else {
             setAuth(<Navigate to="/auth"/>)

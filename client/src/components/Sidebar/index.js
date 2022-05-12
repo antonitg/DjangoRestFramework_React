@@ -1,7 +1,7 @@
 import React from "react"
 import { Outlet, Link, useLocation } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHistory, faBicycle, faMoneyBill, faWrench } from '@fortawesome/free-solid-svg-icons'
+import { faHistory, faBicycle, faMoneyBill, faWrench, faInbox } from '@fortawesome/free-solid-svg-icons'
 import './Sidebar.css'
 import JourneyTimer from "../JourneyTimer"
 export default function Sidebar() {
@@ -41,6 +41,14 @@ export default function Sidebar() {
         <Link to="admin" className={`nav-link text-white ${location.pathname === '/admin' ? "active" : ""}`}>
           <FontAwesomeIcon style={{marginRight: "20px"}} icon={faWrench} />
             Management
+          </Link>
+        }
+        </li>
+        <li>
+        {localStorage.getItem('admin') === "y" && 
+        <Link to="incidences" className={`nav-link text-white ${location.pathname === '/incidences' ? "active" : ""}`}>
+          <FontAwesomeIcon style={{marginRight: "20px"}} icon={faInbox} />
+            Incidences
           </Link>
         }
         </li>

@@ -16,7 +16,8 @@ class IncidenceSerializer(DynamicFieldsModelSerializer):
                 'user' : instance.journey.user.username,
                 'startStation': instance.journey.startStation.name,
                 'stopStation': instance.journey.stopStation.name,
-                'bikeName': instance.journey.bike.name
+                'bikeName': instance.journey.bike.name,
+                'journeyId':instance.journey.id
 
         }
     def create(self, validated_data):  

@@ -1,22 +1,22 @@
 import React, { useEffect } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStop, faPlay, faCalendarAlt, faDollarSign, faStopwatch, faHashtag, faScrewdriver } from '@fortawesome/free-solid-svg-icons'
+import { faStop, faPlay, faHashtag, faBicycle, faUser, faBoxTissue, faScrewdriver } from '@fortawesome/free-solid-svg-icons'
 import { useQueryClient } from 'react-query'
 import apiClient from '../../core/http-common'
 import { useQuery } from "react-query";
-import HistoryListElement from "../../components/HistoryListElement"
-import './History.css'
-export default function History() {
+import IncidenceListElement from "../../components/IncidenceListElement"
+// import './Incidence.css'
+export default function Incidence() {
     const queryClient = useQueryClient()
-    const { data: history, error } = useQuery(['history']);
+    const { data: incidence, error } = useQuery(['incidence']);
     if (error) console.log(error);
     useEffect(()=>{
-        apiClient.get("/v2/journey/history/").then(result => queryClient.setQueryData(['history'], () => (result.data))) // Fill te station query
+        apiClient.get("/v4/incidence/list/").then(result => queryClient.setQueryData(['incidence'], () => (result.data))) // Fill te station query
       }, [])
-    var historyList = <tr><td style={{textAlign: "center"}} className="text-danger" colSpan={6}>There are no recent journeys.</td></tr>
-    if (history) {
-        historyList = history.map((element) =>
-        <HistoryListElement key={element.id} station={element}/>
+    var incidenceList = <tr><td style={{textAlign: "center"}} className="text-danger" colSpan={6}>There are no recent journeys.</td></tr>
+    if (incidence) {
+        incidenceList = incidence.map((element) =>
+        <IncidenceListElement key={element.id} incidence={element}/>
     );
   }
     return (
@@ -29,14 +29,14 @@ export default function History() {
                                 <th scope="col"><FontAwesomeIcon icon={faHashtag}/></th>
                                 <th scope="col"><FontAwesomeIcon icon={faPlay} /></th>
                                 <th scope="col"><FontAwesomeIcon icon={faStop}/></th>
-                                <th scope="col"><FontAwesomeIcon icon={faCalendarAlt}/></th>
-                                <th scope="col"><FontAwesomeIcon icon={faStopwatch}/></th>
-                                <th scope="col"><FontAwesomeIcon icon={faDollarSign}/></th>
+                                <th scope="col"><FontAwesomeIcon icon={faBicycle}/></th>
+                                <th scope="col"><FontAwesomeIcon icon={faUser}/></th>
+                                <th scope="col"><FontAwesomeIcon icon={faBoxTissue}/></th>
                                 <th scope="col"><FontAwesomeIcon icon={faScrewdriver}/></th>
                             </tr>
                         </thead>
                         <tbody style={{textAlign: "center"}}>
-                            {historyList}
+                            {incidenceList}
                         </tbody>
                     </table>
                 </div>

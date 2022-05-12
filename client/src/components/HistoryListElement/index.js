@@ -1,4 +1,5 @@
 import React from "react";
+import CreateIncidence from "../CreateIncidence";
 export default function HistoryListElement(props) {
 return (
     <>
@@ -9,6 +10,7 @@ return (
         <td>{props.station.start.substring(0,10)} at {props.station.start.substring(11,16)}</td>
         <td>{(props.station.time) ? props.station.time.substring(0,8) : "Not finished yet"}</td>
         <td>{props.station.cost}€</td>
+        <td><CreateIncidence id={props.station.id} key={props.station.id}></CreateIncidence></td>
     </tr>
     </>
     )
