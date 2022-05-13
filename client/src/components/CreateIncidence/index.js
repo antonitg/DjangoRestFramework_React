@@ -16,7 +16,7 @@ export default function  CreateIncidence(props) {
             <button className="btn" style={{backgroundColor: "#bb86fc"}} onClick={handleOpen}>Create Incidence</button> 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Updating Bike</Modal.Title>
+                <Modal.Title>Create Incidence</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <form className="form-floating">

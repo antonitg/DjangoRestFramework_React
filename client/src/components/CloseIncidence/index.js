@@ -17,7 +17,7 @@ export default function  CloseIncidence(props) {
             <button className="btn btn-danger" onClick={handleOpen}>Close Incidence</button> 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Updating Bike</Modal.Title>
+                <Modal.Title>Close Incidence</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <form className="form-floating">
