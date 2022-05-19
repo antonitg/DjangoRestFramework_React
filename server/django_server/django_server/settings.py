@@ -96,8 +96,9 @@ MIDDLEWARE = [
 
 # CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    "http://127.0.0.1:3000"
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://bikeapp.jals.es"
 ] # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
 # CORS_ORIGIN_WHITELIST = (
 #     'http://localhost:3000',
@@ -135,8 +136,8 @@ DATABASES = {
         'NAME'    : 'tcyl',                 # <-- UPDATED line 
         'USER'    : 'root',                     # <-- UPDATED line
         'PASSWORD': 'root',              # <-- UPDATED line
-        'HOST'    : 'localhost',                # <-- UPDATED line
-        'PORT'    : '3300',
+        'HOST'    : 'db',                # <-- UPDATED line
+        'PORT'    : '3306',
     }
 }
 
