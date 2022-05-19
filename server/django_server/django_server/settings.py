@@ -70,7 +70,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'core',
     'profiles',
-    'incidences'
+    'incidences',
+    'django_extensions'
 ]
 
 REST_FRAMEWORK = {

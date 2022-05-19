@@ -1,0 +1,30 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+    env_file: .env
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3300:3306'
+    volumes:
+      - my-db:/var/lib/mysql
+    networks:
+      - tot_net
+  django:
+    restart: always
+    build: ./server/django_server/
+    ports:
+      - "8001:8000"
+    networks:
+      - tot_net
+    depends_on:
+      - db
+    command: sh -c "./waitforitsh.sh db:3306; python manage.py migrate; python manage.py runserver 0.0.0.0:8000"
+# Names our volume
+volumes:
+  my-db:
+networks:
+  tot_net:
