@@ -95,24 +95,26 @@ MIDDLEWARE = [
 # CORS_ORIGIN_ALLOW_ALL = True
 ALLOWED_HOSTS = ['*']
 CORS_ALLOWED_ALL_ORIGINS = True
+CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://bikeapp.jals.es"
-] # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     "http://127.0.0.1:3000",
+#     "http://bikeapp.jals.es"
+# ] # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
 # CORS_ORIGIN_WHITELIST = (
 #     'http://localhost:3000',
 #     "http://127.0.0.1:3000",
 # )
 # CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'django_server.urls'
-CORS_ORIGIN_WHITELIST = (
-    'http://0.0.0.0:8080',
-    'http://127.0.0.1:8080',
-    'https://bikeapp.jals.es',
-    'http://bikeapp.jals.es'
-)
+# CORS_ORIGIN_WHITELIST = (
+#     'http://0.0.0.0:8080',
+#     'http://127.0.0.1:8080',
+#     'https://bikeapp.jals.es',
+#     'http://bikeapp.jals.es',
+#     'bikeapp.jals.es'
+# )
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
